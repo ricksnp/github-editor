@@ -1,0 +1,68 @@
+.header {
+	/* everything goes into a line / row */
+	display: flex;
+	background-color: #161b22;
+	justify-content: space-evenly;
+	border-bottom: 0.1px solid #20262d;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 100%;
+	/* Next 3 lines allow the nav to stay at the top */
+	position: sticky;
+	top: 0;
+	z-index: 999;
+}
+
+.header__left {
+	display: flex;
+    align-items: center;
+}
+
+h1 {
+	color: white;
+	margin-right: 10px;
+}
+
+.header__left > img {
+	/* Keep aspect ratio on the image */
+	object-fit: contain;
+	height: 40px;
+	margin-right: 10px;
+}
+
+.header__search {
+	/* Keep space b/t image in search div */
+	padding: 10px;
+	display: flex;
+	/* Make sure input / search icon align properly */
+	align-items: center;
+	border-radius: 5px;
+	height: 22px;
+	color: gray;
+	background-color: #0d1117;
+    margin-left: 10px;
+}
+
+.header__search > input {
+	/* 3 lines of code in order to make the input field clear  */
+	outline: none;
+	border: none;
+	background: none;
+	caret-color: white;
+	transition: all 300ms ease-in-out;
+	-webkit-transition: all 300ms ease-in-out;
+}
+
+.MuiAvatar-img:hover {
+	cursor: pointer;
+}
+
+.header__search > input:focus {
+	padding-right: 130px;
+}
+
+.header__left > .MuiSvgIcon-root{
+    color: white;
+    width: 1.5em !important;
+    height: 1.5em !important;
+}
