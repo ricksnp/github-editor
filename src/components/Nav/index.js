@@ -6,6 +6,7 @@ import { selectUser } from '../../_reducers/userReducer';
 import SearchIcon from '@material-ui/icons/Search';
 import { logOut } from '../../_actions/userActions';
 import EditIcon from '@material-ui/icons/Edit';
+import { auth, provider } from '../../firebase';
 
 function Nav() {
 	const currentUser = useSelector(selectUser);
@@ -13,6 +14,7 @@ function Nav() {
 
 	const logoutOfApp = () => {
 		dispatch(logOut());
+		auth.signOut();
 	};
 
 	return (
@@ -26,7 +28,7 @@ function Nav() {
 				</div>
 			</div>
 			<div className="header__right">
-				<Avatar src={currentUser?.photoURL} onClick={logoutOfApp}></Avatar>
+				<Avatar src={currentUser?.avatar_url} onClick={logoutOfApp}></Avatar>
 			</div>
 		</div>
 	);

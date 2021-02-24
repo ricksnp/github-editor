@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Login.css';
 import github from '../../assets/github.png';
 import { Button } from '@material-ui/core';
-import { setUser } from '../../_actions/userActions';
+import { setUser, logOut } from '../../_actions/userActions';
 import { auth, provider } from '../../firebase';
 import { useDispatch } from 'react-redux';
 
@@ -13,8 +13,7 @@ function Login() {
 		auth
 			.signInWithPopup(provider)
 			.then((result) => {
-				console.log(result.user);
-				dispatch(setUser(result.user));
+				dispatch(setUser(result.additionalUserInfo.profile));
 			})
 			.catch((error) => {
 				alert(error.message);

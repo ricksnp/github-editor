@@ -1,6 +1,6 @@
 // an empty user object is all we have right now
 const initialState = {
-	user: {},
+	user: null,
 };
 
 // Your user reducer, takes in initialState which is empty, and also an action
