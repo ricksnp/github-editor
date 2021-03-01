@@ -19,10 +19,9 @@ function Login() {
 			.signInWithPopup(provider)
 			.then((result) => {
 				gitHubHandle = result.additionalUserInfo.profile.login;
-				axios.get(`/users/${gitHubHandle}/repos`).then((res) => {
-					console.log('in there');
-					dispatch(setRepos(res.data));
+				axios.get(`users/${gitHubHandle}/repos`).then((res) => {
 					dispatch(setUser(result.additionalUserInfo.profile));
+					dispatch(setRepos(res.data));
 					history.push(`/home`);
 				});
 			})
