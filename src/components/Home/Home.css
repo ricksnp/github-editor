@@ -44,3 +44,13 @@
     color: rgb(198, 197, 202);
     border: 1px solid rgb(198, 197, 202);
   }
+
+  .card-img{
+    height: 150px;
+    object-fit:cover;
+    width: 100%;
+  }
+
+  #root > div > ul > li:nth-child(2),  #root > div > ul > li:nth-child(3), #root > div > ul > li:nth-child(4) > a{
+    display: none;
+  }

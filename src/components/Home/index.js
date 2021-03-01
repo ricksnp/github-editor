@@ -10,30 +10,29 @@ import { axios } from '../../util/axiosInstance';
 function Home() {
 	const repos = useSelector(selectRepos).repos;
 	const history = useHistory();
+	//const searched = useSelector(selectSearchedUser).searchedUser[0].owner.login;
 
 	const fetchImage = (login, name, returnImage) => {
 		axios.get(`repos/${login}/${name}/contents/.ghedit?ref=main`).then((result) => {
-			console.log('AAA' + result);
-			const file = result.data[0].name;
-			const link = `https://github.com/${login}/${name}/blob/main/.ghedit/${file}?raw=true`;
-
+			const link = `https://github.com/${login}/${name}/blob/main/.ghedit/${result.data[0].name}?raw=true`;
 			returnImage(link);
 		});
 	};
 
 	const [pagination, setPagination] = useState({
-		data: repos?.map(function (repo, index) {
+		data: repos?.map(function (repo) {
 			const repoDetails = {
 				id: repo.id,
-				title: repo.name,
 				body: repo.language || 'No main language',
 				login: repo.owner.login,
 				name: repo.name,
-				image: `https://github.com/ricksnp/BankApp/blob/main/.ghedit/wallpaper.jpg?raw=true`,
+				description: repo.description
+					? repo.description.substring(0, 50) + '...'
+					: 'Please add a description to your repository!',
+				image: fetchImage('ricksnp', repo.name, function returnImage(link) {
+					repoDetails.image = link;
+				}),
 			};
-			fetchImage('ricksnp', repo.name, function returnImage(link) {
-				repoDetails.image = link;
-			});
 			return repoDetails;
 		}),
 		offset: 0,
@@ -51,7 +50,7 @@ function Home() {
 				pagination.offset + pagination.numberPerPage
 			),
 		}));
-	}, [pagination.numberPerPage, pagination.offset]);
+	}, [pagination.numberPerPage, pagination.offset, repos]);
 
 	const handlePageClick = (event) => {
 		const selected = event.selected;
@@ -68,7 +67,7 @@ function Home() {
 			<Nav />
 			<CardColumns>
 				{pagination.currentData &&
-					pagination.currentData.map((repo, index) => (
+					pagination.currentData.map((repo) => (
 						<Card
 							key={repo.id}
 							bg="dark"
@@ -78,10 +77,10 @@ function Home() {
 							onClick={() => selectRepo(repo.login, repo.name)}
 						>
 							<Card.Img src={repo.image}></Card.Img>
-							<Card.Header>{repo.title}</Card.Header>
+							<Card.Header>{repo.name}</Card.Header>
 							<Card.Body onClick={() => fetchImage('a', 'a')}>
 								<Card.Title>{repo.body || 'No main language'}</Card.Title>
-								<Card.Text>{repo.description || 'No description yet'}</Card.Text>
+								<Card.Text>{repo.description}</Card.Text>
 							</Card.Body>
 						</Card>
 					))}
@@ -91,14 +90,13 @@ function Home() {
 				nextLabel={'Next →'}
 				breakLabel={'...'}
 				pageCount={pagination.pageCount}
-				marginPagesDisplayed={2}
-				pageRangeDisplayed={5}
 				onPageChange={handlePageClick}
+				pageRangeDisplayed={0}
 				containerClassName={'pagination'}
 				previousLinkClassName={'pagination__link'}
 				nextLinkClassName={'pagination__link'}
 				disabledClassName={'pagination__link--disabled'}
-				activeClassName={'pagination__link--active'}
+				activeClassName={'active hidden'}
 			/>
 		</>
 	);

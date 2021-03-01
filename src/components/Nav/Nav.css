@@ -44,7 +44,7 @@ h1 {
     margin-left: 10px;
 }
 
-.header__search > input {
+.header__search > form > input {
 	/* 3 lines of code in order to make the input field clear  */
 	outline: none;
 	border: none;
@@ -59,7 +59,7 @@ h1 {
 	cursor: pointer;
 }
 
-.header__search > input:focus {
+.header__search > form > input:focus {
 	padding-right: 130px;
     color: white;
 }
