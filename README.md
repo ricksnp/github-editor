@@ -20,3 +20,5 @@ Logging in
 
 
 Repositories
+
+![Output sample](https://github.com/ricksnp/github-editor/raw/master/ui.gif)
