@@ -19,18 +19,22 @@ function Nav() {
 	const [search, setSearch] = useState('');
 	const history = useHistory();
 
+	// Clear state in the store and also invalidate the GitHub user session
 	const logoutOfApp = () => {
 		dispatch(logOut());
 		dispatch(clearRepos());
 		auth.signOut();
 	};
 
+	// Fetch all repositories associated with the searched user, and dispatch these results
+	// to the global store
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		axios.get(`users/${search}/repos`).then((result) => {
 			dispatch(setSearchedUser(result.data));
 			history.push(`/user/${search}`);
 		});
+		// Clear the input after searching
 		var form = document.getElementById('searchuser');
 		form.reset();
 	};

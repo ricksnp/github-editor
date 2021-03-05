@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardColumns } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { selectRepos } from '../../_reducers/repoReducer';
@@ -10,8 +10,11 @@ import { axios } from '../../util/axiosInstance';
 function Home() {
 	const repos = useSelector(selectRepos).repos;
 	const history = useHistory();
-	//const searched = useSelector(selectSearchedUser).searchedUser[0].owner.login;
-
+	/* This function is responsible for fetching the contents of this specific folder
+	   within each individual user's repository.  Once gathered (as there should only be one image),
+	   return a link designating the URL of the background image of each repo card.  If this folder
+	   does not exist, the card will not have a background.
+	*/
 	const fetchImage = (login, name, returnImage) => {
 		axios.get(`repos/${login}/${name}/contents/.ghedit?ref=main`).then((result) => {
 			const link = `https://github.com/${login}/${name}/blob/main/.ghedit/${result.data[0].name}?raw=true`;
@@ -19,6 +22,10 @@ function Home() {
 		});
 	};
 
+	/* Pagination for the repository results.  I display 
+	   6 cards per page, and only map these properties from the repos
+	   into the data.  If there is a description, I take the first 50 characters.
+	*/
 	const [pagination, setPagination] = useState({
 		data: repos?.map(function (repo) {
 			const repoDetails = {
@@ -41,6 +48,9 @@ function Home() {
 		currentData: [],
 	});
 
+	// Important that whenever we change a page, we're updating the pagination
+	// data, which is why it's also a dependency.
+
 	useEffect(() => {
 		setPagination((prevState) => ({
 			...prevState,
@@ -57,6 +67,9 @@ function Home() {
 		const offset = selected * pagination.numberPerPage;
 		setPagination({ ...pagination, offset });
 	};
+
+	// Anytime I click on a card, I change routes to that respective
+	// repo's contents.
 
 	const selectRepo = (login, name) => {
 		history.push(`repos/${login}/${name}`);
@@ -79,7 +92,7 @@ function Home() {
 							<Card.Img src={repo.image}></Card.Img>
 							<Card.Header>{repo.name}</Card.Header>
 							<Card.Body onClick={() => fetchImage('a', 'a')}>
-								<Card.Title>{repo.body || 'No main language'}</Card.Title>
+								<Card.Title>{repo.body}</Card.Title>
 								<Card.Text>{repo.description}</Card.Text>
 							</Card.Body>
 						</Card>

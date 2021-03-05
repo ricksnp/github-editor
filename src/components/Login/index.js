@@ -14,6 +14,9 @@ function Login() {
 	const history = useHistory();
 	let gitHubHandle;
 
+	/* Sign in with GitHub, get the GitHub username from the login, 
+	 fetch all of your repositories, and dispatch the repos and the 
+	 current user to the store. */
 	const signIn = () => {
 		auth
 			.signInWithPopup(provider)
